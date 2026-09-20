@@ -2,6 +2,22 @@
 
 An on-demand troubleshooting UI backed by FastAPI. The backend collects read-only Kubernetes evidence with `kubectl` and can request a diagnosis from OpenRouter. It does not apply fixes to a cluster.
 
+## Screenshots
+
+The local `kind-ai-k8s-agent-test` run completed all investigation stages and identified the four intentional failure scenarios.
+
+**Cluster selection and investigation progress**
+
+![Cluster selection and completed investigation stages](docs/screenshots/cluster-selection.png)
+
+**AI diagnosis and suggested fixes**
+
+![AI diagnosis for the test cluster](docs/screenshots/ai-diagnosis.png)
+
+**Confidence and investigation history**
+
+![Diagnosis confidence and saved investigation history](docs/screenshots/investigation-history.png)
+
 ## Run locally with Docker
 
 1. Create local environment files if they are not already present:
