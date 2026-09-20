@@ -11,6 +11,7 @@ Hands-on DevOps projects demonstrating infrastructure as code, CI/CD, containeri
 | [05 — Observability incident lab](05-observability-incident-lab/) | Prometheus, Grafana, alerting, and incident response | Grafana dashboard and alert state |
 | [06 — Ansible server automation](06-ansible-server-automation/) | Idempotent Linux/web-server configuration | Playbook recap and served site |
 | [07 — DevSecOps pipeline](07-devsecops-pipeline/) | Dependency, secret, IaC, and image scanning gates | Security workflow run and findings summary |
+| [08 — AI Kubernetes agent foundation](08-ai-kubernetes-troubleshooting-agent/) | Dockerized FastAPI and Next.js monorepo | Health endpoint and starter UI |
 
 ## Portfolio standard
 
