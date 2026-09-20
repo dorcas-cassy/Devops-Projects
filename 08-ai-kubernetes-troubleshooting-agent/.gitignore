@@ -3,7 +3,23 @@ __pycache__/
 .venv/
 node_modules/
 .next/
+*.tsbuildinfo
 .env
 .env.local
 backend/.env
 frontend/.env.local
+
+# InsForge & AI agent skills
+.insforge
+.agent
+.agents
+.augment
+.claude
+.cline
+.github/copilot*
+.kilocode
+.qoder
+.qwen
+.roo
+.trae
+.windsurf

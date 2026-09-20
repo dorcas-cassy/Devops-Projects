@@ -20,10 +20,16 @@ class KubectlResult:
 
 
 class KubectlExecutor:
-    """Executes a fixed list of read-only kubectl arguments without a shell."""
+    """Executes read-only kubectl arguments for one selected context."""
+
+    def __init__(self, context: str | None = None):
+        self.context = context
 
     def run(self, arguments: list[str]) -> KubectlResult:
-        command = ["kubectl", *arguments]
+        command = ["kubectl"]
+        if self.context:
+            command.extend(["--context", self.context])
+        command.extend(arguments)
         env = os.environ.copy()
         if kubeconfig := os.getenv("KUBECONFIG_PATH"):
             env["KUBECONFIG"] = kubeconfig
@@ -52,3 +58,11 @@ class KubectlExecutor:
             result.success = False
             result.stderr = "kubectl returned invalid JSON"
             return {}, result
+
+    def list_contexts(self) -> tuple[list[str], KubectlResult]:
+        result = KubectlExecutor().run(["config", "get-contexts", "-o", "name"])
+        return ([line.strip() for line in result.stdout.splitlines() if line.strip()] if result.success else []), result
+
+    def current_context(self) -> str:
+        result = KubectlExecutor().run(["config", "current-context"])
+        return result.stdout.strip() if result.success else ""

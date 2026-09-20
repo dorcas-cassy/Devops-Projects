@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: low-memory
+  namespace: ai-agent-test
+spec:
+  replicas: 1
+  selector:
+    matchLabels: { app: low-memory }
+  template:
+    metadata:
+      labels: { app: low-memory }
+    spec:
+      containers:
+        - name: app
+          image: python:3.12-alpine
+          command:
+            - python
+            - -c
+            - 'import time; data=[]; [(data.append(bytearray(1024*1024)), time.sleep(0.05)) for _ in range(256)]; time.sleep(3600)'
+          resources:
+            requests: { memory: 16Mi }
+            limits: { memory: 32Mi }

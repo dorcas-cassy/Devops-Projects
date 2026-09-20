@@ -30,3 +30,37 @@ button:hover { transform: translateY(-2px); box-shadow: 0 17px 34px #1bd4df3d; }
 footer { border-top: 1px solid #234057; border-bottom: 0; color: #678699; font: 10px 'DM Mono', monospace; letter-spacing: .5px; }
 @media (max-width: 850px) { main { padding: 16px; }.hero-grid { grid-template-columns: 1fr; padding: 58px 9%; }.signal-card { max-width: 520px; }.topbar, footer { padding: 20px 25px; } }
 @media (max-width: 520px) { .topbar .environment, footer span:last-child { display: none; } h1 { letter-spacing: -2px; }.hero-grid { padding: 50px 26px; gap: 35px; }.subtitle { font-size: 15px; } }
+
+.app-main { display: block; padding: 34px; }
+.dashboard-shell { margin: 0 auto; }
+.content { position: relative; z-index: 1; padding: 52px 8%; }
+.content h1 { font-size: clamp(2.4rem, 5vw, 4rem); }
+.content h2 { margin: 0 0 18px; font-size: 18px; }
+.content h3 { margin: 0 0 12px; color: #61e2df; font-size: 24px; }
+.content h4 { margin: 22px 0 8px; color: #b7d3e4; }
+.account { display: flex; align-items: center; gap: 16px; font-size: 12px; color: #a9c5d6; }
+.text-button { background: transparent; color: #61e2df; box-shadow: none; padding: 6px; font-size: 12px; }
+.text-button:hover { box-shadow: none; }
+.auth-wrap { max-width: 750px; }
+.auth-form { max-width: 390px; display: grid; gap: 16px; margin-top: 30px; }
+.auth-form label, .cluster-field { display: grid; gap: 8px; color: #b7d3e4; font-size: 13px; font-weight: 700; }
+input, select { width: 100%; border: 1px solid #31536a; border-radius: 9px; background: #061927; color: #edf8ff; padding: 13px; font: 14px Manrope, sans-serif; }
+input:focus, select:focus, button:focus-visible { outline: 2px solid #61e2df; outline-offset: 2px; }
+button:disabled { opacity: .55; cursor: not-allowed; box-shadow: none; }
+.control-row { display: flex; gap: 16px; align-items: end; flex-wrap: wrap; margin: 28px 0; }
+.cluster-field { flex: 1 1 340px; min-width: 0; }
+.cluster-list { padding: 5px; }
+.cluster-list option { padding: 12px; border-radius: 5px; }
+.panel { border: 1px solid #31536a; border-radius: 14px; background: #071a2aab; padding: 24px; margin: 20px 0; }
+.panel p { line-height: 1.6; }
+.muted { color: #91abbb; }
+.error { color: #ffc0bb; }
+.progress-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px; list-style: none; padding: 0; margin: 0; color: #7d9baa; font-size: 13px; }
+.progress-list li.done { color: #62dfa0; }.progress-list li.active { color: #61e2df; font-weight: 700; }
+.diagnosis-card pre { white-space: pre-wrap; overflow-wrap: anywhere; padding: 14px; border-radius: 8px; background: #03131d; color: #c6e7f0; }
+.confidence { font-weight: 800; color: #62dfa0; }
+.table-wrap { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 12px; }
+th, td { text-align: left; padding: 11px; border-bottom: 1px solid #234057; white-space: nowrap; }
+th { color: #91abbb; }
+@media (max-width: 600px) { .app-main { padding: 12px; }.content { padding: 38px 24px; }.account span { display: none; } }

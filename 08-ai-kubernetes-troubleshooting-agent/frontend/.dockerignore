@@ -1,0 +1,6 @@
+# NEXT_PUBLIC_API_BASE_URL is supplied as a build argument
+.env
+.env.*
+node_modules/
+.next/
+.git/

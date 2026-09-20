@@ -5,12 +5,39 @@ from app.kubernetes.logs_collector import LogsCollector
 from app.kubernetes.network_inspector import NetworkInspector
 from app.kubernetes.pod_inspector import PodInspector
 
+
 class InvestigationService:
-    """Collects evidence only; it makes no root-cause or remediation decision."""
-    def __init__(self, executor: KubectlExecutor | None = None):
-        executor = executor or KubectlExecutor()
-        self.pods, self.logs = PodInspector(executor), LogsCollector(executor)
-        self.events, self.deployments, self.network = EventsAnalyzer(executor), DeploymentInspector(executor), NetworkInspector(executor)
+    """Collects evidence in a fixed, read-only sequence."""
+
+    def __init__(self, executor: KubectlExecutor | None = None, context: str | None = None):
+        executor = executor or KubectlExecutor(context=context)
+        self.pods = PodInspector(executor)
+        self.logs = LogsCollector(executor)
+        self.events = EventsAnalyzer(executor)
+        self.deployments = DeploymentInspector(executor)
+        self.network = NetworkInspector(executor)
+
+    def steps(self):
+        evidence = {}
+        yield {"stage": "checking_pods"}
+        evidence["pods"] = self.pods.inspect()
+        if evidence["pods"].get("error"):
+            evidence.update({"logs": {}, "events": {}, "deployments": {}, "network": {}})
+            yield {"stage": "evidence_collected", "investigation": evidence}
+            return
+        yield {"stage": "reading_logs"}
+        evidence["logs"] = self.logs.collect(evidence["pods"].get("problematic_pods", []))
+        yield {"stage": "analyzing_events"}
+        evidence["events"] = self.events.analyze()
+        yield {"stage": "inspecting_deployments"}
+        evidence["deployments"] = self.deployments.inspect()
+        yield {"stage": "checking_networking"}
+        evidence["network"] = self.network.inspect()
+        yield {"stage": "evidence_collected", "investigation": evidence}
+
     def investigate(self) -> dict:
-        pods = self.pods.inspect()
-        return {"pods": pods, "logs": self.logs.collect(pods.get("problematic_pods", [])), "events": self.events.analyze(), "deployments": self.deployments.inspect(), "network": self.network.inspect()}
+        evidence = {}
+        for update in self.steps():
+            if "investigation" in update:
+                evidence = update["investigation"]
+        return evidence

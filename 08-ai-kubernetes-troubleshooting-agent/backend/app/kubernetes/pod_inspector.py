@@ -22,7 +22,6 @@ class PodInspector:
     def _reasons(pod: dict) -> list[str]:
         reasons = []
         phase = pod.get("status", {}).get("phase", "")
-        if phase in UNHEALTHY_PHASES: reasons.append(phase)
         for status in pod.get("status", {}).get("containerStatuses", []):
             waiting = status.get("state", {}).get("waiting", {}).get("reason")
             terminated = status.get("state", {}).get("terminated", {}).get("reason")
@@ -30,4 +29,9 @@ class PodInspector:
             for reason in (waiting, terminated, last_terminated):
                 if reason in UNHEALTHY_WAITING or reason in {"Error", "OOMKilled"}:
                     reasons.append(reason)
-        return list(dict.fromkeys(reasons))
+        if phase in UNHEALTHY_PHASES: reasons.append(phase)
+        reasons = list(dict.fromkeys(reasons))
+        if "OOMKilled" in reasons:
+            reasons.remove("OOMKilled")
+            reasons.insert(0, "OOMKilled")
+        return reasons
