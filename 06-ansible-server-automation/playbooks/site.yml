@@ -1,0 +1,4 @@
+- name: Configure portfolio web servers
+  hosts: web
+  become: true
+  roles: [web]
